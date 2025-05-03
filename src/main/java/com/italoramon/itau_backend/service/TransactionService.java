@@ -40,4 +40,12 @@ public class TransactionService {
         transactions.clear();
         log.info("All transactions cleared");
     }
+
+    public List<TransactionRequest> getTransactions(Integer intervalSeconds) {
+        log.info("Retrieving transactions within the last {} seconds", intervalSeconds);
+ 
+        OffsetDateTime intervalStart = OffsetDateTime.now().minusSeconds(intervalSeconds);
+
+        return transactions.stream().filter(transaction -> transaction.dataHora().isAfter(intervalStart)).toList();
+    }
 }
